@@ -1,0 +1,16 @@
+#step 1: Setting up Google Colab
+!pip install PyDrive ##This will install PyDrive. Now we will import a few required libraries:##
+import os
+from pydrive.auth import GoogleAuth
+from pydrive.drive import GoogleDrive
+from google.colab import auth
+from oauth2client.client import GoogleCredentials
+
+##Next, we will create a drive variable to access Google Drive:##
+auth.authenticate_user()
+gauth = GoogleAuth()
+gauth.credentials = GoogleCredentials.get_application_default()
+drive = GoogleDrive(gauth)
+download = drive.CreateFile({'id': '1BZOv422XJvxFUnGh-0xVeSvgFgqVY45q'})
+download.GetContentFile('train_LbELtWX.zip')
+!unzip train_LbELtWX.zip
