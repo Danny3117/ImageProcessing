@@ -1,0 +1,25 @@
+#Making predictions!
+download = drive.CreateFile({'id': '1KuyWGFEpj7Fr2DgBsW8qsWvjqEzfoJBY'})
+download.GetContentFile('test_ScVgIM0.zip')
+!unzip test_ScVgIM0.zip
+
+test = pd.read_csv('test.csv')
+
+test_image = []
+for i in tqdm(range(test.shape[0])):
+    img = image.load_img('test/'+test['id'][i].astype('str')+'.png', target_size=(28,28,1), grayscale=True)
+    img = image.img_to_array(img)
+    img = img/255
+    test_image.append(img)
+test = np.array(test_image)
+
+# making predictions
+prediction = model.predict_classes(test)
+
+download = drive.CreateFile({'id': '1z4QXy7WravpSj-S4Cs9Fk8ZNaX-qh5HF'})
+download.GetContentFile('sample_submission_I5njJSF.csv')
+
+# creating submission file
+sample = pd.read_csv('sample_submission_I5njJSF.csv')
+sample['label'] = prediction
+sample.to_csv('sample_cnn.csv', header=True, index=False)
